@@ -30,3 +30,10 @@ func setupKVS(gen *Gen) *KVS {
 
 	return &KVS{m}
 }
+
+func BenchmarkGenUser(b *testing.B) {
+	gen := &Gen{}
+	for i := 0; i < b.N; i++ {
+		gen.User("user")
+	}
+}
