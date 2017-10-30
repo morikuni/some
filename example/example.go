@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/morikuni/gen"
+	"github.com/morikuni/dummy"
 )
 
 type User struct {
@@ -21,7 +21,7 @@ type ContactInfo struct {
 }
 
 type Gen struct {
-	gen.Gen
+	dummy.Gen
 }
 
 func (g *Gen) User(key ...string) *User {
@@ -31,8 +31,8 @@ func (g *Gen) User(key ...string) *User {
 func GenUser(r *rand.Rand) *User {
 	createdAt := *genTime(r).Gen()
 	return &User{
-		ID:          gen.Int(r).Gen64(),
-		Name:        gen.String(r).Len(8).Gen(),
+		ID:          dummy.Int(r).Gen64(),
+		Name:        dummy.String(r).Len(8).Gen(),
 		ContactInfo: genContactInfo(r),
 		CreatedAt:   createdAt,
 		UpdatedAt:   *genTime(r).After(createdAt).Gen(),
@@ -42,16 +42,16 @@ func GenUser(r *rand.Rand) *User {
 func genContactInfo(r *rand.Rand) ContactInfo {
 	return ContactInfo{
 		Email:         genEmail(r),
-		EmailVerified: gen.Bool(r).Gen(),
+		EmailVerified: dummy.Bool(r).Gen(),
 	}
 }
 
 func genEmail(r *rand.Rand) string {
-	return gen.String(r).Gen() + "@" + gen.String(r).Gen() + ".com"
+	return dummy.String(r).Gen() + "@" + dummy.String(r).Gen() + ".com"
 }
 
-func genTime(r *rand.Rand) *gen.TimeGen {
-	return gen.Time(r).
+func genTime(r *rand.Rand) *dummy.TimeGen {
+	return dummy.Time(r).
 		After(time.Date(2017, time.January, 1, 0, 0, 0, 0, time.Local)).
 		Before(time.Date(2017, time.February, 1, 0, 0, 0, 0, time.Local))
 }

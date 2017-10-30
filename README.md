@@ -1,2 +1,3 @@
-# gen
-Key based random data generator for testing
+# dummy
+
+Key based dummy data generator for testing
