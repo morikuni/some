@@ -44,12 +44,6 @@ func (g *UintGen) Gen() uint {
 	return uint(g.Gen64())
 }
 
-func (g *UintGen) Gen64() uint64 {
-	diff := g.max - g.min
-	// TODO: use Uint64n if it's supported by math/rand.
-	return g.min + (g.r.Uint64() % diff)
-}
-
 func (g *UintGen) GenString() string {
 	return strconv.FormatUint(g.Gen64(), 10)
 }
