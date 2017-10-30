@@ -44,6 +44,21 @@ func (g *UintGen) Gen() uint {
 	return uint(g.Gen64())
 }
 
+func (g *UintGen) GenP() *uint {
+	u := g.Gen()
+	return &u
+}
+
+func (g *UintGen) Gen64P() *uint64 {
+	u := g.Gen64()
+	return &u
+}
+
 func (g *UintGen) GenString() string {
 	return strconv.FormatUint(g.Gen64(), 10)
+}
+
+func (g *UintGen) GenStringP() *string {
+	s := g.GenString()
+	return &s
 }

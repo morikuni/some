@@ -29,13 +29,13 @@ func (g *Gen) User(key ...string) *User {
 }
 
 func GenUser(r *rand.Rand) *User {
-	createdAt := *genTime(r).Gen()
+	createdAt := genTime(r).Gen()
 	return &User{
 		ID:          dummy.Int(r).Gen64(),
 		Name:        dummy.String(r).Len(8).Gen(),
 		ContactInfo: genContactInfo(r),
 		CreatedAt:   createdAt,
-		UpdatedAt:   *genTime(r).After(createdAt).Gen(),
+		UpdatedAt:   genTime(r).After(createdAt).Gen(),
 	}
 }
 

@@ -16,16 +16,21 @@ type StringGen struct {
 	len int
 }
 
-func (s *StringGen) Len(n int) *StringGen {
-	s.len = n
-	return s
+func (g *StringGen) Len(n int) *StringGen {
+	g.len = n
+	return g
 }
 
-func (s *StringGen) Gen() string {
+func (g *StringGen) Gen() string {
 	const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	result := make([]byte, s.len)
+	result := make([]byte, g.len)
 	for i := range result {
-		result[i] = chars[Int(s.r).Max(len(chars)).Gen()]
+		result[i] = chars[Int(g.r).Max(len(chars)).Gen()]
 	}
 	return string(result)
+}
+
+func (g *StringGen) GenP() *string {
+	s := g.Gen()
+	return &s
 }

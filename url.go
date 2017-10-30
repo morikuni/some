@@ -22,11 +22,16 @@ func (g *URLGen) Schemes(schemes ...string) *URLGen {
 	return g
 }
 
-func (g *URLGen) Gen() *url.URL {
+func (g *URLGen) Gen() url.URL {
 	scheme := g.schemes[Int(g.r).Max(len(g.schemes)).Gen()]
-	return &url.URL{
+	return url.URL{
 		Scheme: scheme,
 		Host:   String(g.r).Len(10).Gen() + ".com",
 		Path:   String(g.r).Len(10).Gen() + "/" + String(g.r).Len(10).Gen(),
 	}
+}
+
+func (g *URLGen) GenP() *url.URL {
+	u := g.Gen()
+	return &u
 }

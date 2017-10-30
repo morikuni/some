@@ -44,11 +44,26 @@ func (g *IntGen) Gen() int {
 	return int(g.Gen64())
 }
 
+func (g *IntGen) GenP() *int {
+	i := g.Gen()
+	return &i
+}
+
 func (g *IntGen) Gen64() int64 {
 	diff := g.max - g.min
 	return g.min + g.r.Int63n(diff)
 }
 
+func (g *IntGen) Gen64P() *int64 {
+	i := g.Gen64()
+	return &i
+}
+
 func (g *IntGen) GenString() string {
 	return strconv.FormatInt(g.Gen64(), 10)
+}
+
+func (g *IntGen) GenStringP() *string {
+	s := g.GenString()
+	return &s
 }

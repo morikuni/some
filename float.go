@@ -28,11 +28,21 @@ func (g *FloatGen) Min(f float64) *FloatGen {
 	return g
 }
 
-func (g *FloatGen) Gen() float64 {
+func (g *FloatGen) Gen64() float64 {
 	diff := g.max - g.min
 	return g.min + diff*g.r.Float64()
 }
 
+func (g *FloatGen) Gen64P() *float64 {
+	f := g.Gen64()
+	return &f
+}
+
 func (g *FloatGen) Gen32() float32 {
-	return float32(g.Gen())
+	return float32(g.Gen64())
+}
+
+func (g *FloatGen) Gen32P() *float32 {
+	f := g.Gen32()
+	return &f
 }

@@ -17,3 +17,8 @@ type BoolGen struct {
 func (g *BoolGen) Gen() bool {
 	return g.r.Int()&0x1 == 0
 }
+
+func (g *BoolGen) GenP() *bool {
+	b := g.Gen()
+	return &b
+}

@@ -29,8 +29,12 @@ func (g *TimeGen) Before(t time.Time) *TimeGen {
 	return g
 }
 
-func (g *TimeGen) Gen() *time.Time {
+func (g *TimeGen) Gen() time.Time {
 	d := g.before.Sub(g.after)
-	t := g.after.Add(time.Duration(Int(g.r).Max64(int64(d)).Gen64()))
+	return g.after.Add(time.Duration(Int(g.r).Max64(int64(d)).Gen64()))
+}
+
+func (g *TimeGen) GenP() *time.Time {
+	t := g.Gen()
 	return &t
 }
