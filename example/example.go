@@ -21,11 +21,11 @@ type ContactInfo struct {
 }
 
 type Gen struct {
-	gen.Gen
+	*gen.Gen
 }
 
 func (g *Gen) User(key ...string) *User {
-	return GenUser(g.Rand(key))
+	return g.WithCache(key, (*User)(nil), func() interface{} { return GenUser(g.Rand(key)) }).(*User)
 }
 
 func GenUser(r *rand.Rand) *User {

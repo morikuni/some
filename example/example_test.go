@@ -3,13 +3,14 @@ package example
 import (
 	"testing"
 
+	"github.com/morikuni/gen"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestStore_Get(t *testing.T) {
 	assert := assert.New(t)
 
-	gen := &Gen{}
+	gen := &Gen{gen.New()}
 
 	kvs := setupKVS(gen)
 
@@ -32,7 +33,7 @@ func setupKVS(gen *Gen) *KVS {
 }
 
 func BenchmarkGenUser(b *testing.B) {
-	gen := &Gen{}
+	gen := &Gen{gen.New()}
 	for i := 0; i < b.N; i++ {
 		gen.User("user")
 	}
