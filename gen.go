@@ -9,18 +9,14 @@ import (
 	"time"
 )
 
-var GlobalRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
-
-func New() *Gen {
-	return &Gen{
-		Default: GlobalRand,
-		Cache:   make(map[string]interface{}),
-	}
-}
+var (
+	GlobalRand  *rand.Rand             = rand.New(rand.NewSource(time.Now().UnixNano()))
+	GlobalCache map[string]interface{} = make(map[string]interface{})
+)
 
 type Gen struct {
-	Default *rand.Rand
-	Cache   map[string]interface{}
+	LocalRand  *rand.Rand
+	LocalCache map[string]interface{}
 }
 
 func (g *Gen) Rand(keys []string) *rand.Rand {
@@ -28,10 +24,28 @@ func (g *Gen) Rand(keys []string) *rand.Rand {
 		hash := g.Hash(keys)
 		return rand.New(rand.NewSource(hash))
 	}
-	if g.Default == nil {
-		return GlobalRand
+	if g.LocalRand != nil {
+		return g.LocalRand
 	}
-	return g.Default
+	return GlobalRand
+}
+
+func (g *Gen) Cache() map[string]interface{} {
+	if g.LocalCache != nil {
+		return g.LocalCache
+	}
+	return GlobalCache
+}
+
+func (g *Gen) CacheKey(keys []string, typ interface{}) string {
+	return reflect.TypeOf(typ).String() + strconv.FormatInt(g.Hash(keys), 10)
+}
+
+func (g *Gen) Hash(keys []string) int64 {
+	key := strings.Join(keys, "")
+	hash := fnv.New64()
+	hash.Write([]byte(key))
+	return int64(hash.Sum64())
 }
 
 func (g *Gen) Int(key ...string) *IntGen {
@@ -62,22 +76,16 @@ func (g *Gen) Time(key ...string) *TimeGen {
 	return Time(g.Rand(key))
 }
 
-func (g *Gen) WithCache(key []string, typ interface{}, f func() interface{}) interface{} {
-	if len(key) == 0 {
+func (g *Gen) WithCache(keys []string, typ interface{}, f func() interface{}) interface{} {
+	if len(keys) == 0 {
 		return f()
 	}
-	cacheKey := reflect.TypeOf(typ).String() + strconv.FormatInt(g.Hash(key), 10)
-	if v, ok := g.Cache[cacheKey]; ok {
+	cache := g.Cache()
+	cacheKey := g.CacheKey(keys, typ)
+	if v, ok := cache[cacheKey]; ok {
 		return v
 	}
 	v := f()
-	g.Cache[cacheKey] = v
+	cache[cacheKey] = v
 	return v
-}
-
-func (g *Gen) Hash(keys []string) int64 {
-	key := strings.Join(keys, "")
-	hash := fnv.New64()
-	hash.Write([]byte(key))
-	return int64(hash.Sum64())
 }

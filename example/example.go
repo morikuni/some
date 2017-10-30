@@ -21,7 +21,7 @@ type ContactInfo struct {
 }
 
 type Gen struct {
-	*gen.Gen
+	gen.Gen
 }
 
 func (g *Gen) User(key ...string) *User {
