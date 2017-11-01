@@ -21,13 +21,11 @@ type IntGen struct {
 }
 
 func (g *IntGen) Max(n int) *IntGen {
-	g.max = int64(n)
-	return g
+	return g.Max64(int64(n))
 }
 
 func (g *IntGen) Min(n int) *IntGen {
-	g.min = int64(n)
-	return g
+	return g.Min64(int64(n))
 }
 
 func (g *IntGen) Max64(n int64) *IntGen {
