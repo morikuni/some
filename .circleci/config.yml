@@ -18,4 +18,9 @@ jobs:
       - run:
           name: test
           command: make test
-
+      - run:
+          name: coverage
+          command: go test -covermode=atomic -coverprofile=coverage.txt
+      - run:
+          name: upload coverage
+          command: bash <(curl -s https://codecov.io/bash)
