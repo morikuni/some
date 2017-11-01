@@ -10,12 +10,12 @@ jobs:
     steps:
       - checkout
       - run:
-        name: install
-        command: make install
+          name: install
+          command: make install
       - run:
-        name: init
-        command: make init
+          name: init
+          command: make init
       - run:
-        name: test
-        command: make test
+          name: test
+          command: make test
 
