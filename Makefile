@@ -7,5 +7,5 @@ init:
 .PHONY: init
 
 test:
-	go test -v (go list ./... | grep -v vendor)
+	go test -v $(go list ./... | grep -v vendor)
 .PHONY: test
