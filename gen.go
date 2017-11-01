@@ -21,7 +21,7 @@ type Gen struct {
 
 func (g *Gen) Rand(keys []string) *rand.Rand {
 	if len(keys) > 0 {
-		hash := g.Hash(keys)
+		hash := g.hash(keys)
 		return rand.New(rand.NewSource(hash))
 	}
 	if g.LocalRand != nil {
@@ -38,14 +38,28 @@ func (g *Gen) Cache() map[string]interface{} {
 }
 
 func (g *Gen) CacheKey(keys []string, typ interface{}) string {
-	return reflect.TypeOf(typ).String() + strconv.FormatInt(g.Hash(keys), 10)
+	return reflect.TypeOf(typ).String() + strconv.FormatInt(g.hash(keys), 10)
 }
 
-func (g *Gen) Hash(keys []string) int64 {
+func (g *Gen) hash(keys []string) int64 {
 	key := strings.Join(keys, "")
 	hash := fnv.New64()
 	hash.Write([]byte(key))
 	return int64(hash.Sum64())
+}
+
+func (g *Gen) WithCache(keys []string, typ interface{}, f func() interface{}) interface{} {
+	if len(keys) == 0 {
+		return f()
+	}
+	cache := g.Cache()
+	cacheKey := g.CacheKey(keys, typ)
+	if v, ok := cache[cacheKey]; ok {
+		return v
+	}
+	v := f()
+	cache[cacheKey] = v
+	return v
 }
 
 func (g *Gen) Int(key ...string) *IntGen {
@@ -74,18 +88,4 @@ func (g *Gen) URL(key ...string) *URLGen {
 
 func (g *Gen) Time(key ...string) *TimeGen {
 	return Time(g.Rand(key))
-}
-
-func (g *Gen) WithCache(keys []string, typ interface{}, f func() interface{}) interface{} {
-	if len(keys) == 0 {
-		return f()
-	}
-	cache := g.Cache()
-	cacheKey := g.CacheKey(keys, typ)
-	if v, ok := cache[cacheKey]; ok {
-		return v
-	}
-	v := f()
-	cache[cacheKey] = v
-	return v
 }
