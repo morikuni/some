@@ -21,7 +21,7 @@ func (g *BoolGen) Gen() bool {
 	return g.r.Int()&0x1 == 0
 }
 
-// Gen returns a random bool pointer.
+// GenP returns a random bool pointer.
 func (g *BoolGen) GenP() *bool {
 	b := g.Gen()
 	return &b

@@ -36,7 +36,7 @@ func (g *URLGen) Gen() url.URL {
 	}
 }
 
-// Gen returns a url pointer.
+// GenP returns a url pointer.
 func (g *URLGen) GenP() *url.URL {
 	u := g.Gen()
 	return &u

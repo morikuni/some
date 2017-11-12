@@ -20,13 +20,13 @@ type FloatGen struct {
 	min float64
 }
 
-// Max set the maximum value of a random float value.
+// Max sets the maximum value of a random float value.
 func (g *FloatGen) Max(f float64) *FloatGen {
 	g.max = f
 	return g
 }
 
-// Max set the minimum value of a random float value.
+// Min sets the minimum value of a random float value.
 func (g *FloatGen) Min(f float64) *FloatGen {
 	g.min = f
 	return g
@@ -38,18 +38,18 @@ func (g *FloatGen) Gen64() float64 {
 	return g.min + diff*g.r.Float64()
 }
 
-// Gen64 returns a float64 pointer.
+// Gen64P returns a float64 pointer.
 func (g *FloatGen) Gen64P() *float64 {
 	f := g.Gen64()
 	return &f
 }
 
-// Gen64 returns a float32 value.
+// Gen32 returns a float32 value.
 func (g *FloatGen) Gen32() float32 {
 	return float32(g.Gen64())
 }
 
-// Gen64 returns a float32 pointer.
+// Gen32P returns a float32 pointer.
 func (g *FloatGen) Gen32P() *float32 {
 	f := g.Gen32()
 	return &f

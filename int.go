@@ -32,13 +32,13 @@ func (g *IntGen) Min(n int) *IntGen {
 	return g.Min64(int64(n))
 }
 
-// Max sets the maximum value of a random int value with int64.
+// Max64 sets the maximum value of a random int value with int64.
 func (g *IntGen) Max64(n int64) *IntGen {
 	g.max = n
 	return g
 }
 
-// Min sets the minimum value of a random int value with int64.
+// Min64 sets the minimum value of a random int value with int64.
 func (g *IntGen) Min64(n int64) *IntGen {
 	g.min = n
 	return g
@@ -72,7 +72,7 @@ func (g *IntGen) GenString() string {
 	return strconv.FormatInt(g.Gen64(), 10)
 }
 
-// GenString returns a int64 value as a string pointer.
+// GenStringP returns a int64 value as a string pointer.
 func (g *IntGen) GenStringP() *string {
 	s := g.GenString()
 	return &s

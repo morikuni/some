@@ -37,7 +37,7 @@ func (g *Gen) Rand(keys []string) *rand.Rand {
 	return GlobalRand
 }
 
-// Rand returns a cache store.
+// Cache returns a cache store.
 // GlobalRand or LocalCache are returned.
 func (g *Gen) Cache() map[string]interface{} {
 	if g.LocalCache != nil {
