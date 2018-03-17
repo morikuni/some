@@ -59,6 +59,7 @@ func (g *Gen) hash(keys []string) int64 {
 }
 
 // WithCache returns the result of the function f and cache it with the specific key and type.
+// Note: Don't cache a pointer type, because the pointer value may be overwrited.
 func (g *Gen) WithCache(keys []string, typ interface{}, f func() interface{}) interface{} {
 	if len(keys) == 0 {
 		return f()

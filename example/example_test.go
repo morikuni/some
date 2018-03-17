@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestStore_Get(t *testing.T) {
+func TestKVS_Get(t *testing.T) {
 	assert := assert.New(t)
 
 	gen := &Gen{}

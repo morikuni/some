@@ -29,13 +29,14 @@ type Gen struct {
 
 // User generate example random user from a key.
 func (g *Gen) User(key ...string) *User {
-	return g.WithCache(key, (*User)(nil), func() interface{} { return GenUser(g.Rand(key)) }).(*User)
+	u := g.WithCache(key, User{}, func() interface{} { return GenUser(g.Rand(key)) }).(User)
+	return &u
 }
 
 // GenUser user generate a example random use from rand.
-func GenUser(r *rand.Rand) *User {
+func GenUser(r *rand.Rand) User {
 	createdAt := genTime(r).Gen()
-	return &User{
+	return User{
 		ID:          dummy.Int(r).Gen64(),
 		Name:        dummy.String(r).Len(8).Gen(),
 		ContactInfo: genContactInfo(r),
