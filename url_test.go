@@ -1,4 +1,4 @@
-package dummy
+package some
 
 import (
 	"net/url"
@@ -11,7 +11,7 @@ import (
 func TestURL(t *testing.T) {
 	assert := assert.New(t)
 
-	g := Gen{}
+	g := Generator{}
 
 	n := 100
 	for i := 0; i < n; i++ {

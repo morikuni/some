@@ -1,4 +1,4 @@
-package dummy
+package some
 
 import (
 	"math/rand"
@@ -6,28 +6,28 @@ import (
 )
 
 // URL returns a url genertor.
-func URL(r *rand.Rand) *URLGen {
-	return &URLGen{
+func URL(r *rand.Rand) *SomeURL {
+	return &SomeURL{
 		r,
 		[]string{"http", "https"},
 	}
 }
 
-// URLGen is a url generator.
-type URLGen struct {
+// SomeURL is a url generator.
+type SomeURL struct {
 	r       *rand.Rand
 	schemes []string
 }
 
 // Schemes sets the schemes, one of them will be picked for
 // a random url.
-func (g *URLGen) Schemes(schemes ...string) *URLGen {
+func (g *SomeURL) Schemes(schemes ...string) *SomeURL {
 	g.schemes = schemes
 	return g
 }
 
 // Gen returns a url value.
-func (g *URLGen) Gen() url.URL {
+func (g *SomeURL) Gen() url.URL {
 	scheme := g.schemes[Int(g.r).Max(len(g.schemes)).Gen()]
 	return url.URL{
 		Scheme: scheme,
@@ -37,7 +37,7 @@ func (g *URLGen) Gen() url.URL {
 }
 
 // GenP returns a url pointer.
-func (g *URLGen) GenP() *url.URL {
+func (g *SomeURL) GenP() *url.URL {
 	u := g.Gen()
 	return &u
 }

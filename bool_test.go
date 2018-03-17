@@ -1,4 +1,4 @@
-package dummy
+package some
 
 import (
 	"strconv"
@@ -10,7 +10,7 @@ import (
 func TestBool(t *testing.T) {
 	assert := assert.New(t)
 
-	g := Gen{}
+	g := Generator{}
 
 	n := 1000
 	trueCount := 0.0

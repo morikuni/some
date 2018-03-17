@@ -1,7 +1,7 @@
 defaults: &defaults
   docker:
     - image: circleci/golang:1.8
-  working_directory: /go/src/github.com/morikuni/dummy
+  working_directory: /go/src/github.com/morikuni/some
 
 version: 2
 jobs:

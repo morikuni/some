@@ -1,4 +1,4 @@
-package dummy
+package some
 
 import (
 	"math/rand"
@@ -10,7 +10,7 @@ import (
 func TestGen(t *testing.T) {
 	assert := assert.New(t)
 
-	g := Gen{}
+	g := Generator{}
 
 	assert.Equal(GlobalRand, g.Rand(nil))
 	assert.Equal(GlobalCache, g.Cache())

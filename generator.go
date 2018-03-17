@@ -1,4 +1,4 @@
-package dummy
+package some
 
 import (
 	"hash/fnv"
@@ -16,17 +16,17 @@ var (
 	GlobalCache map[string]interface{} = make(map[string]interface{})
 )
 
-// Gen is a factory and cache for a dummy data generator.
-type Gen struct {
-	// LocalRand is a instace specific random number generator.
+// Generator generates and caches a dummy data.
+type Generator struct {
+	// LocalRand is a instance specific random number generator.
 	LocalRand *rand.Rand
-	// LocalCache is a instace specific cache store.
+	// LocalCache is a instance specific cache store.
 	LocalCache map[string]interface{}
 }
 
 // Rand returns a random number generator for the specific key.
 // GlobalRand or LocalCache are returned for the empty key.
-func (g *Gen) Rand(keys []string) *rand.Rand {
+func (g *Generator) Rand(keys []string) *rand.Rand {
 	if len(keys) > 0 {
 		hash := g.hash(keys)
 		return rand.New(rand.NewSource(hash))
@@ -39,7 +39,7 @@ func (g *Gen) Rand(keys []string) *rand.Rand {
 
 // Cache returns a cache store.
 // GlobalRand or LocalCache are returned.
-func (g *Gen) Cache() map[string]interface{} {
+func (g *Generator) Cache() map[string]interface{} {
 	if g.LocalCache != nil {
 		return g.LocalCache
 	}
@@ -47,11 +47,11 @@ func (g *Gen) Cache() map[string]interface{} {
 }
 
 // CacheKey returns a unique key for the specific key and type.
-func (g *Gen) CacheKey(keys []string, typ interface{}) string {
+func (g *Generator) CacheKey(keys []string, typ interface{}) string {
 	return reflect.TypeOf(typ).String() + strconv.FormatInt(g.hash(keys), 10)
 }
 
-func (g *Gen) hash(keys []string) int64 {
+func (g *Generator) hash(keys []string) int64 {
 	key := strings.Join(keys, "")
 	hash := fnv.New64()
 	hash.Write([]byte(key))
@@ -60,7 +60,7 @@ func (g *Gen) hash(keys []string) int64 {
 
 // WithCache returns the result of the function f and cache it with the specific key and type.
 // Note: Don't cache a pointer type, because the pointer value may be overwrited.
-func (g *Gen) WithCache(keys []string, typ interface{}, f func() interface{}) interface{} {
+func (g *Generator) WithCache(keys []string, typ interface{}, f func() interface{}) interface{} {
 	if len(keys) == 0 {
 		return f()
 	}
@@ -75,36 +75,36 @@ func (g *Gen) WithCache(keys []string, typ interface{}, f func() interface{}) in
 }
 
 // Int returns a int generator for the specific key.
-func (g *Gen) Int(key ...string) *IntGen {
+func (g *Generator) Int(key ...string) *SomeInt {
 	return Int(g.Rand(key))
 }
 
 // Uint returns a uint generator for the specific key.
-func (g *Gen) Uint(key ...string) *UintGen {
+func (g *Generator) Uint(key ...string) *SomeUint {
 	return Uint(g.Rand(key))
 }
 
 // Float returns a float generator for the specific key.
-func (g *Gen) Float(key ...string) *FloatGen {
+func (g *Generator) Float(key ...string) *SomeFloat {
 	return Float(g.Rand(key))
 }
 
 // String returns a string generator for the specific key.
-func (g *Gen) String(key ...string) *StringGen {
+func (g *Generator) String(key ...string) *SomeString {
 	return String(g.Rand(key))
 }
 
 // Bool returns a bool generator for the specific key.
-func (g *Gen) Bool(key ...string) *BoolGen {
+func (g *Generator) Bool(key ...string) *SomeBool {
 	return Bool(g.Rand(key))
 }
 
 // URL returns a url generator for the specific key.
-func (g *Gen) URL(key ...string) *URLGen {
+func (g *Generator) URL(key ...string) *SomeURL {
 	return URL(g.Rand(key))
 }
 
 // Time returns a time generator for the specific key.
-func (g *Gen) Time(key ...string) *TimeGen {
+func (g *Generator) Time(key ...string) *SomeTime {
 	return Time(g.Rand(key))
 }

@@ -1,4 +1,4 @@
-package dummy
+package some
 
 import (
 	"strconv"
@@ -10,7 +10,7 @@ import (
 func TestFloat(t *testing.T) {
 	assert := assert.New(t)
 
-	g := Gen{}
+	g := Generator{}
 
 	n := 100
 	for i := 0; i < n; i++ {
