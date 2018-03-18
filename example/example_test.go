@@ -9,7 +9,7 @@ import (
 func TestKVS_Get(t *testing.T) {
 	assert := assert.New(t)
 
-	gen := &Gen{}
+	gen := &Some{}
 
 	kvs := setupKVS(gen)
 
@@ -18,7 +18,7 @@ func TestKVS_Get(t *testing.T) {
 	assert.Equal(kvs.Get(gen.User("user3").ID), gen.User("user3"))
 }
 
-func setupKVS(gen *Gen) *KVS {
+func setupKVS(gen *Some) *KVS {
 	u1 := gen.User("user1")
 	u2 := gen.User("user2")
 	u3 := gen.User("user3")
@@ -32,7 +32,7 @@ func setupKVS(gen *Gen) *KVS {
 }
 
 func BenchmarkGenUser(b *testing.B) {
-	gen := &Gen{}
+	gen := &Some{}
 	for i := 0; i < b.N; i++ {
 		gen.User("user")
 	}

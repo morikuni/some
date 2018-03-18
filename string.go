@@ -19,23 +19,23 @@ type SomeString struct {
 }
 
 // Len sets the lentgh of a random string value.
-func (g *SomeString) Len(n int) *SomeString {
-	g.len = n
-	return g
+func (s *SomeString) Len(n int) *SomeString {
+	s.len = n
+	return s
 }
 
 // Gen returns a string value.
-func (g *SomeString) Gen() string {
+func (s *SomeString) Gen() string {
 	const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	result := make([]byte, g.len)
+	result := make([]byte, s.len)
 	for i := range result {
-		result[i] = chars[Int(g.r).Max(len(chars)).Gen()]
+		result[i] = chars[Int(s.r).Max(len(chars)).Gen()]
 	}
 	return string(result)
 }
 
 // GenP returns a string pointer.
-func (g *SomeString) GenP() *string {
-	s := g.Gen()
-	return &s
+func (s *SomeString) GenP() *string {
+	str:= s.Gen()
+	return &str
 }

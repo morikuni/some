@@ -11,7 +11,7 @@ import (
 func TestURL(t *testing.T) {
 	assert := assert.New(t)
 
-	g := Generator{}
+	g := Some{}
 
 	n := 100
 	for i := 0; i < n; i++ {

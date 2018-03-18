@@ -21,36 +21,36 @@ type SomeFloat struct {
 }
 
 // Max sets the maximum value of a random float value.
-func (g *SomeFloat) Max(f float64) *SomeFloat {
-	g.max = f
-	return g
+func (s *SomeFloat) Max(f float64) *SomeFloat {
+	s.max = f
+	return s
 }
 
 // Min sets the minimum value of a random float value.
-func (g *SomeFloat) Min(f float64) *SomeFloat {
-	g.min = f
-	return g
+func (s *SomeFloat) Min(f float64) *SomeFloat {
+	s.min = f
+	return s
 }
 
 // Gen64 returns a float64 value.
-func (g *SomeFloat) Gen64() float64 {
-	diff := g.max - g.min
-	return g.min + diff*g.r.Float64()
+func (s *SomeFloat) Gen64() float64 {
+	diff := s.max - s.min
+	return s.min + diff*s.r.Float64()
 }
 
 // Gen64P returns a float64 pointer.
-func (g *SomeFloat) Gen64P() *float64 {
-	f := g.Gen64()
+func (s *SomeFloat) Gen64P() *float64 {
+	f := s.Gen64()
 	return &f
 }
 
 // Gen32 returns a float32 value.
-func (g *SomeFloat) Gen32() float32 {
-	return float32(g.Gen64())
+func (s *SomeFloat) Gen32() float32 {
+	return float32(s.Gen64())
 }
 
 // Gen32P returns a float32 pointer.
-func (g *SomeFloat) Gen32P() *float32 {
-	f := g.Gen32()
+func (s *SomeFloat) Gen32P() *float32 {
+	f := s.Gen32()
 	return &f
 }

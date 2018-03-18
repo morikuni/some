@@ -10,7 +10,7 @@ import (
 func TestGen(t *testing.T) {
 	assert := assert.New(t)
 
-	g := Generator{}
+	g := Some{}
 
 	assert.Equal(GlobalRand, g.Rand(nil))
 	assert.Equal(GlobalCache, g.Cache())

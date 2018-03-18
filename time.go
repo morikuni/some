@@ -22,25 +22,25 @@ type SomeTime struct {
 }
 
 // After sets the minimum time of a random time.
-func (g *SomeTime) After(t time.Time) *SomeTime {
-	g.after = t
-	return g
+func (s *SomeTime) After(t time.Time) *SomeTime {
+	s.after = t
+	return s
 }
 
 // Before sets the maximux time of a random time.
-func (g *SomeTime) Before(t time.Time) *SomeTime {
-	g.before = t
-	return g
+func (s *SomeTime) Before(t time.Time) *SomeTime {
+	s.before = t
+	return s
 }
 
 // Gen returns a time value.
-func (g *SomeTime) Gen() time.Time {
-	d := g.before.Sub(g.after)
-	return g.after.Add(time.Duration(Int(g.r).Max64(int64(d)).Gen64()))
+func (s *SomeTime) Gen() time.Time {
+	d := s.before.Sub(s.after)
+	return s.after.Add(time.Duration(Int(s.r).Max64(int64(d)).Gen64()))
 }
 
 // GenP returns a time pointer.
-func (g *SomeTime) GenP() *time.Time {
-	t := g.Gen()
+func (s *SomeTime) GenP() *time.Time {
+	t := s.Gen()
 	return &t
 }

@@ -23,57 +23,57 @@ type SomeInt struct {
 }
 
 // Max sets the maximum value of a random int value.
-func (g *SomeInt) Max(n int) *SomeInt {
-	return g.Max64(int64(n))
+func (s *SomeInt) Max(n int) *SomeInt {
+	return s.Max64(int64(n))
 }
 
 // Min sets the minimum value of a random int value.
-func (g *SomeInt) Min(n int) *SomeInt {
-	return g.Min64(int64(n))
+func (s *SomeInt) Min(n int) *SomeInt {
+	return s.Min64(int64(n))
 }
 
 // Max64 sets the maximum value of a random int value with int64.
-func (g *SomeInt) Max64(n int64) *SomeInt {
-	g.max = n
-	return g
+func (s *SomeInt) Max64(n int64) *SomeInt {
+	s.max = n
+	return s
 }
 
 // Min64 sets the minimum value of a random int value with int64.
-func (g *SomeInt) Min64(n int64) *SomeInt {
-	g.min = n
-	return g
+func (s *SomeInt) Min64(n int64) *SomeInt {
+	s.min = n
+	return s
 }
 
 // Gen  returns a int value.
-func (g *SomeInt) Gen() int {
-	return int(g.Gen64())
+func (s *SomeInt) Gen() int {
+	return int(s.Gen64())
 }
 
 // GenP returns a int pointer.
-func (g *SomeInt) GenP() *int {
-	i := g.Gen()
+func (s *SomeInt) GenP() *int {
+	i := s.Gen()
 	return &i
 }
 
 // Gen64 returns a int64 value.
-func (g *SomeInt) Gen64() int64 {
-	diff := g.max - g.min
-	return g.min + g.r.Int63n(diff)
+func (s *SomeInt) Gen64() int64 {
+	diff := s.max - s.min
+	return s.min + s.r.Int63n(diff)
 }
 
 // Gen64P returns a int64 pointer.
-func (g *SomeInt) Gen64P() *int64 {
-	i := g.Gen64()
+func (s *SomeInt) Gen64P() *int64 {
+	i := s.Gen64()
 	return &i
 }
 
 // GenString returns a int64 value as a string value.
-func (g *SomeInt) GenString() string {
-	return strconv.FormatInt(g.Gen64(), 10)
+func (s *SomeInt) GenString() string {
+	return strconv.FormatInt(s.Gen64(), 10)
 }
 
 // GenStringP returns a int64 value as a string pointer.
-func (g *SomeInt) GenStringP() *string {
-	s := g.GenString()
-	return &s
+func (s *SomeInt) GenStringP() *string {
+	str := s.GenString()
+	return &str
 }

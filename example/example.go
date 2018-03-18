@@ -22,41 +22,41 @@ type ContactInfo struct {
 	EmailVerified bool
 }
 
-// Gen is a generator for example.
-type Gen struct {
-	some.Generator
+// Some is a generator for example.
+type Some struct {
+	some.Some
 }
 
 // User generate example random user from a key.
-func (g *Gen) User(key ...string) *User {
-	u := g.WithCache(key, User{}, func() interface{} { return GenUser(g.Rand(key)) }).(User)
+func (s *Some) User(key ...string) *User {
+	u := s.WithCache(key, User{}, func() interface{} { return SomeUser(s.Rand(key)) }).(User)
 	return &u
 }
 
-// GenUser user generate a example random use from rand.
-func GenUser(r *rand.Rand) User {
-	createdAt := genTime(r).Gen()
+// SomeUser user generate a example random use from rand.
+func SomeUser(r *rand.Rand) User {
+	createdAt := someTime(r).Gen()
 	return User{
 		ID:          some.Int(r).Gen64(),
 		Name:        some.String(r).Len(8).Gen(),
-		ContactInfo: genContactInfo(r),
+		ContactInfo: someContactInfo(r),
 		CreatedAt:   createdAt,
-		UpdatedAt:   genTime(r).After(createdAt).Gen(),
+		UpdatedAt:   someTime(r).After(createdAt).Gen(),
 	}
 }
 
-func genContactInfo(r *rand.Rand) ContactInfo {
+func someContactInfo(r *rand.Rand) ContactInfo {
 	return ContactInfo{
-		Email:         genEmail(r),
+		Email:         someEmail(r),
 		EmailVerified: some.Bool(r).Gen(),
 	}
 }
 
-func genEmail(r *rand.Rand) string {
+func someEmail(r *rand.Rand) string {
 	return some.String(r).Gen() + "@" + some.String(r).Gen() + ".com"
 }
 
-func genTime(r *rand.Rand) *some.SomeTime {
+func someTime(r *rand.Rand) *some.SomeTime {
 	return some.Time(r).
 		After(time.Date(2017, time.January, 1, 0, 0, 0, 0, time.Local)).
 		Before(time.Date(2017, time.February, 1, 0, 0, 0, 0, time.Local))

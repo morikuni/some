@@ -10,7 +10,7 @@ import (
 func TestBool(t *testing.T) {
 	assert := assert.New(t)
 
-	g := Generator{}
+	g := Some{}
 
 	n := 1000
 	trueCount := 0.0

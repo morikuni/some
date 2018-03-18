@@ -17,12 +17,12 @@ type SomeBool struct {
 }
 
 // Gen returns a random bool value.
-func (g *SomeBool) Gen() bool {
-	return g.r.Int()&0x1 == 0
+func (s *SomeBool) Gen() bool {
+	return s.r.Int()&0x1 == 0
 }
 
 // GenP returns a random bool pointer.
-func (g *SomeBool) GenP() *bool {
-	b := g.Gen()
+func (s *SomeBool) GenP() *bool {
+	b := s.Gen()
 	return &b
 }
