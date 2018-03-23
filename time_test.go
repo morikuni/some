@@ -9,25 +9,20 @@ import (
 )
 
 func TestTime(t *testing.T) {
-	assert := assert.New(t)
-
-	g := Some{}
+	s := Some{}
 
 	n := 100
 	for i := 0; i < n; i++ {
 		key := strconv.Itoa(i)
-		assert.Equal(g.Time(key).Gen(), g.Time(key).Gen())
-		assert.Equal(g.Time(key).GenP(), g.Time(key).GenP())
-
-		assert.NotEqual(g.Time().Gen(), g.Time().Gen())
+		assert.Equal(t, s.Time(key, Time), s.Time(key, Time))
 
 		now := time.Now()
-		v := g.Time().After(now.Add(-time.Hour * 24 * 10)).Before(now).GenP()
+		v := s.Time(key, Time.After(now.Add(-time.Hour*24*10)).Before(now))
 		if v.Before(now.Add(-time.Hour * 24 * 10)) {
-			assert.Fail("", "before 10 days: %v", v)
+			assert.Fail(t, "", "before 10 days: %v", v)
 		}
 		if v.After(now) {
-			assert.Fail("", "after now: %v", v)
+			assert.Fail(t, "", "after now: %v", v)
 		}
 	}
 }

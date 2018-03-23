@@ -4,38 +4,30 @@ import (
 	"math/rand"
 )
 
-// String returns a string generator.
-func String(r *rand.Rand) *SomeString {
-	return &SomeString{
-		r,
-		10,
-	}
+var String StringSpec = StringSpec{
+	10,
 }
 
-// SomeString is a string generator.
-type SomeString struct {
-	r   *rand.Rand
+// StringSpec is a specification of a string value.
+type StringSpec struct {
 	len int
 }
 
-// Len sets the lentgh of a random string value.
-func (s *SomeString) Len(n int) *SomeString {
+// Len sets the length of a random string value.
+func (s StringSpec) Len(n int) StringSpec {
 	s.len = n
 	return s
 }
 
-// Gen returns a string value.
-func (s *SomeString) Gen() string {
+func (s StringSpec) Generate(r *rand.Rand) string {
 	const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	result := make([]byte, s.len)
 	for i := range result {
-		result[i] = chars[Int(s.r).Max(len(chars)).Gen()]
+		result[i] = chars[Int.Max(len(chars)).Generate(r)]
 	}
 	return string(result)
 }
 
-// GenP returns a string pointer.
-func (s *SomeString) GenP() *string {
-	str:= s.Gen()
-	return &str
+func (s *Some) String(key string, spec StringSpec) string {
+	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(string)
 }

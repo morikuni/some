@@ -9,21 +9,16 @@ import (
 )
 
 func TestURL(t *testing.T) {
-	assert := assert.New(t)
-
-	g := Some{}
+	s := Some{}
 
 	n := 100
 	for i := 0; i < n; i++ {
 		key := strconv.Itoa(i)
-		assert.Equal(g.URL(key).Gen(), g.URL(key).Gen())
-		assert.Equal(g.URL(key).GenP(), g.URL(key).GenP())
+		assert.Equal(t, s.URL(key, URL), s.URL(key, URL))
 
-		assert.NotEqual(g.URL().Gen(), g.URL().Gen())
-
-		v := g.URL().Schemes("hoge", "huga").Gen()
+		v := s.URL(key, URL.Schemes("hoge", "huga"))
 		u, err := url.Parse(v.String())
-		assert.NoError(err)
-		assert.Contains([]string{"hoge", "huga"}, u.Scheme)
+		assert.NoError(t, err)
+		assert.Contains(t, []string{"hoge", "huga"}, u.Scheme)
 	}
 }

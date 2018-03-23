@@ -8,27 +8,20 @@ import (
 )
 
 func TestInt(t *testing.T) {
-	assert := assert.New(t)
-
-	g := Some{}
+	s := Some{}
 
 	n := 100
 	for i := 0; i < n; i++ {
 		key := strconv.Itoa(i)
-		assert.Equal(g.Int(key).Gen64(), g.Int(key).Gen64())
-		assert.Equal(g.Int(key).Gen64P(), g.Int(key).Gen64P())
-		assert.Equal(g.Int(key).Gen(), g.Int(key).Gen())
-		assert.Equal(g.Int(key).GenP(), g.Int(key).GenP())
+		assert.Equal(t, s.Int(key, Int), s.Int(key, Int))
+		assert.Equal(t, s.Int64(key, Int64), s.Int64(key, Int64))
 
-		assert.NotEqual(g.Int().Gen(), g.Int().Gen())
-		assert.NotEqual(g.Int().Gen64(), g.Int().Gen64())
-
-		v := g.Int().Min(-100).Max(50).Gen64()
+		v := s.Int(key, Int.Min(-100).Max(50))
 		if v < -100 {
-			assert.Fail("", "less than -100: %v", v)
+			assert.Fail(t, "", "less than -100: %v", v)
 		}
 		if 50 <= v {
-			assert.Fail("", "greater than 50: %v", v)
+			assert.Fail(t, "", "greater than 50: %v", v)
 		}
 	}
 }

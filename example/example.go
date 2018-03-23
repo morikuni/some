@@ -28,38 +28,46 @@ type Some struct {
 }
 
 // User generate example random user from a key.
-func (s *Some) User(key ...string) *User {
-	u := s.WithCache(key, User{}, func() interface{} { return SomeUser(s.Rand(key)) }).(User)
+func (s *Some) User(key string, spec UserSpec) *User {
+	u := s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(User)
 	return &u
 }
 
+type UserSpec struct {
+	WithID int64
+}
+
 // SomeUser user generate a example random use from rand.
-func SomeUser(r *rand.Rand) User {
-	createdAt := someTime(r).Gen()
+func (s UserSpec) Generate(r *rand.Rand) User {
+	t := some.Time.
+		After(time.Date(2017, time.January, 1, 0, 0, 0, 0, time.Local)).
+		Before(time.Date(2017, time.February, 1, 0, 0, 0, 0, time.Local))
+	createdAt := t.Generate(r)
 	return User{
-		ID:          some.Int(r).Gen64(),
-		Name:        some.String(r).Len(8).Gen(),
+		ID:          s.someID(r),
+		Name:        some.String.Len(8).Generate(r),
 		ContactInfo: someContactInfo(r),
 		CreatedAt:   createdAt,
-		UpdatedAt:   someTime(r).After(createdAt).Gen(),
+		UpdatedAt:   t.After(createdAt).Generate(r),
 	}
+}
+
+func (s UserSpec) someID(r *rand.Rand) int64 {
+	if s.WithID != 0 {
+		return s.WithID
+	}
+	return some.Int64.Generate(r)
 }
 
 func someContactInfo(r *rand.Rand) ContactInfo {
 	return ContactInfo{
 		Email:         someEmail(r),
-		EmailVerified: some.Bool(r).Gen(),
+		EmailVerified: some.Bool.Generate(r),
 	}
 }
 
 func someEmail(r *rand.Rand) string {
-	return some.String(r).Gen() + "@" + some.String(r).Gen() + ".com"
-}
-
-func someTime(r *rand.Rand) *some.SomeTime {
-	return some.Time(r).
-		After(time.Date(2017, time.January, 1, 0, 0, 0, 0, time.Local)).
-		Before(time.Date(2017, time.February, 1, 0, 0, 0, 0, time.Local))
+	return some.String.Generate(r) + "@" + some.String.Generate(r) + ".com"
 }
 
 // KVS is a example store for user.

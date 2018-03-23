@@ -5,39 +5,30 @@ import (
 	"net/url"
 )
 
-// URL returns a url genertor.
-func URL(r *rand.Rand) *SomeURL {
-	return &SomeURL{
-		r,
-		[]string{"http", "https"},
-	}
+var URL URLSpec = URLSpec{
+	[]string{"http", "https"},
 }
 
-// SomeURL is a url generator.
-type SomeURL struct {
-	r       *rand.Rand
+type URLSpec struct {
 	schemes []string
 }
 
 // Schemes sets the schemes, one of them will be picked for
 // a random url.
-func (s *SomeURL) Schemes(schemes ...string) *SomeURL {
+func (s URLSpec) Schemes(schemes ...string) URLSpec {
 	s.schemes = schemes
 	return s
 }
 
-// Gen returns a url value.
-func (s *SomeURL) Gen() url.URL {
-	scheme := s.schemes[Int(s.r).Max(len(s.schemes)).Gen()]
+func (s URLSpec) Generate(r *rand.Rand) url.URL {
+	scheme := s.schemes[Int.Max(len(s.schemes)).Generate(r)]
 	return url.URL{
 		Scheme: scheme,
-		Host:   String(s.r).Len(10).Gen() + ".com",
-		Path:   String(s.r).Len(10).Gen() + "/" + String(s.r).Len(10).Gen(),
+		Host:   String.Len(10).Generate(r) + ".com",
+		Path:   String.Len(10).Generate(r) + "/" + String.Len(10).Generate(r),
 	}
 }
 
-// GenP returns a url pointer.
-func (s *SomeURL) GenP() *url.URL {
-	u := s.Gen()
-	return &u
+func (s *Some) URL(key string, spec URLSpec) url.URL {
+	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(url.URL)
 }

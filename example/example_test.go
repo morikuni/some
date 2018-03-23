@@ -7,21 +7,19 @@ import (
 )
 
 func TestKVS_Get(t *testing.T) {
-	assert := assert.New(t)
+	some := &Some{}
 
-	gen := &Some{}
+	kvs := setupKVS(some)
 
-	kvs := setupKVS(gen)
-
-	assert.Equal(kvs.Get(gen.User("user1").ID), gen.User("user1"))
-	assert.Equal(kvs.Get(gen.User("user2").ID), gen.User("user2"))
-	assert.Equal(kvs.Get(gen.User("user3").ID), gen.User("user3"))
+	assert.Equal(t, kvs.Get(some.User("user1", UserSpec{}).ID), some.User("user1", UserSpec{}))
+	assert.Equal(t, kvs.Get(some.User("user2", UserSpec{}).ID), some.User("user2", UserSpec{}))
+	assert.Equal(t, kvs.Get(some.User("user3", UserSpec{}).ID), some.User("user3", UserSpec{}))
 }
 
-func setupKVS(gen *Some) *KVS {
-	u1 := gen.User("user1")
-	u2 := gen.User("user2")
-	u3 := gen.User("user3")
+func setupKVS(some *Some) *KVS {
+	u1 := some.User("user1", UserSpec{})
+	u2 := some.User("user2", UserSpec{})
+	u3 := some.User("user3", UserSpec{})
 
 	m := map[int64]*User{}
 	m[u1.ID] = u1
@@ -32,8 +30,8 @@ func setupKVS(gen *Some) *KVS {
 }
 
 func BenchmarkGenUser(b *testing.B) {
-	gen := &Some{}
+	some := &Some{}
 	for i := 0; i < b.N; i++ {
-		gen.User("user")
+		some.User("user", UserSpec{})
 	}
 }

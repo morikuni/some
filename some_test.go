@@ -7,38 +7,45 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+type testSpec struct{}
+
+func (s testSpec) Generate(r *rand.Rand) int {
+	return r.Int()
+}
+
+func (s testSpec) CacheKey() string {
+	return "test"
+}
+
 func TestGen(t *testing.T) {
-	assert := assert.New(t)
+	s := Some{}
 
-	g := Some{}
-
-	assert.Equal(GlobalRand, g.Rand(nil))
-	assert.Equal(GlobalCache, g.Cache())
+	assert.Equal(t, GlobalRand, s.Rand(""))
+	assert.Equal(t, GlobalCache, s.Cache())
 
 	r := rand.New(rand.NewSource(12345))
 	c := map[string]interface{}{}
 
-	g.LocalRand = r
-	g.LocalCache = c
+	s.LocalRand = r
+	s.LocalCache = c
 
-	assert.Equal(r, g.Rand(nil))
-	assert.Equal(c, g.Cache())
-
-	assert.Equal(g.CacheKey([]string{"a"}, ""), g.CacheKey([]string{"a"}, ""))
-	assert.NotEqual(g.CacheKey([]string{"a"}, ""), g.CacheKey([]string{"b"}, ""))
-	assert.NotEqual(g.CacheKey([]string{"a"}, ""), g.CacheKey([]string{"a"}, 0))
+	assert.Equal(t, r, s.Rand(""))
+	assert.Equal(t, c, s.Cache())
 
 	count := 0
-	f := func() interface{} {
+	spec := testSpec{}
+	f := func(r *rand.Rand) interface{} {
 		count++
-		return String(g.Rand(nil)).Gen()
+		return spec.Generate(r)
 	}
-	g.WithCache(nil, "", f)
-	g.WithCache(nil, "", f)
-	assert.Equal(g.WithCache([]string{"a"}, "", f), g.WithCache([]string{"a"}, "", f))
-	assert.NotEqual(g.WithCache([]string{"a"}, "", f), g.WithCache([]string{"b"}, "", f))
-	g.WithCache([]string{"a"}, "", f)
-	g.WithCache([]string{"a"}, "", f)
-	g.WithCache([]string{"a"}, "", f)
-	assert.Equal(4, count)
+	s.Generate("", spec, f)
+	s.Generate("", spec, f)
+	assert.Equal(t, s.Generate("a", spec, f), s.Generate("a", spec, f))
+	assert.NotEqual(t, s.Generate("a", spec, f), s.Generate("b", spec, f))
+	s.Generate("a", spec, f)
+	s.Generate("a", spec, f)
+	s.Generate("a", spec, f)
+	assert.Equal(t, 4, count)
+
+	t.Log(s.Cache())
 }

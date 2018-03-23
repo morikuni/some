@@ -3,77 +3,67 @@ package some
 import (
 	"math"
 	"math/rand"
-	"strconv"
 )
 
-// Int returns a int generator.
-func Int(r *rand.Rand) *SomeInt {
-	return &SomeInt{
-		r,
-		math.MaxInt64,
+var Int IntSpec = IntSpec{
+	Int64Spec{
+		math.MaxInt32,
 		0,
-	}
+	},
 }
 
-// SomeInt is a int generator.
-type SomeInt struct {
-	r   *rand.Rand
+// IntSpec is specification of a int value.
+type IntSpec struct {
+	Int64Spec
+}
+
+// Max sets the maximum value of a random int value.
+func (s IntSpec) Max(n int) IntSpec {
+	return IntSpec{s.Int64Spec.Max(int64(n))}
+}
+
+// Min sets the minimum value of a random int value.
+func (s IntSpec) Min(n int) IntSpec {
+	return IntSpec{s.Int64Spec.Min(int64(n))}
+}
+
+func (s IntSpec) Generate(r *rand.Rand) int {
+	i := s.Int64Spec.Generate(r)
+	return int(i)
+}
+
+func (s *Some) Int(key string, spec IntSpec) int {
+	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(int)
+}
+
+var Int64 Int64Spec = Int64Spec{
+	math.MaxInt64,
+	0,
+}
+
+// IntSpec is specification of a int value.
+type Int64Spec struct {
 	max int64
 	min int64
 }
 
 // Max sets the maximum value of a random int value.
-func (s *SomeInt) Max(n int) *SomeInt {
-	return s.Max64(int64(n))
-}
-
-// Min sets the minimum value of a random int value.
-func (s *SomeInt) Min(n int) *SomeInt {
-	return s.Min64(int64(n))
-}
-
-// Max64 sets the maximum value of a random int value with int64.
-func (s *SomeInt) Max64(n int64) *SomeInt {
+func (s Int64Spec) Max(n int64) Int64Spec {
 	s.max = n
 	return s
 }
 
-// Min64 sets the minimum value of a random int value with int64.
-func (s *SomeInt) Min64(n int64) *SomeInt {
+// Min sets the minimum value of a random int value.
+func (s Int64Spec) Min(n int64) Int64Spec {
 	s.min = n
 	return s
 }
 
-// Gen  returns a int value.
-func (s *SomeInt) Gen() int {
-	return int(s.Gen64())
-}
-
-// GenP returns a int pointer.
-func (s *SomeInt) GenP() *int {
-	i := s.Gen()
-	return &i
-}
-
-// Gen64 returns a int64 value.
-func (s *SomeInt) Gen64() int64 {
+func (s Int64Spec) Generate(r *rand.Rand) int64 {
 	diff := s.max - s.min
-	return s.min + s.r.Int63n(diff)
+	return s.min + r.Int63n(diff)
 }
 
-// Gen64P returns a int64 pointer.
-func (s *SomeInt) Gen64P() *int64 {
-	i := s.Gen64()
-	return &i
-}
-
-// GenString returns a int64 value as a string value.
-func (s *SomeInt) GenString() string {
-	return strconv.FormatInt(s.Gen64(), 10)
-}
-
-// GenStringP returns a int64 value as a string pointer.
-func (s *SomeInt) GenStringP() *string {
-	str := s.GenString()
-	return &str
+func (s *Some) Int64(key string, spec Int64Spec) int64 {
+	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(int64)
 }

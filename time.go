@@ -5,42 +5,33 @@ import (
 	"time"
 )
 
-// Time returns a time generator.
-func Time(r *rand.Rand) *SomeTime {
-	return &SomeTime{
-		r,
-		time.Unix(0, 0),
-		time.Date(2030, time.January, 1, 0, 0, 0, 0, time.UTC),
-	}
+var Time TimeSpec = TimeSpec{
+	time.Unix(0, 0),
+	time.Date(3000, time.January, 1, 0, 0, 0, 0, time.UTC),
 }
 
-// SomeTime is a time generator.
-type SomeTime struct {
-	r      *rand.Rand
+type TimeSpec struct {
 	after  time.Time
 	before time.Time
 }
 
 // After sets the minimum time of a random time.
-func (s *SomeTime) After(t time.Time) *SomeTime {
+func (s TimeSpec) After(t time.Time) TimeSpec {
 	s.after = t
 	return s
 }
 
 // Before sets the maximux time of a random time.
-func (s *SomeTime) Before(t time.Time) *SomeTime {
+func (s TimeSpec) Before(t time.Time) TimeSpec {
 	s.before = t
 	return s
 }
 
-// Gen returns a time value.
-func (s *SomeTime) Gen() time.Time {
+func (s TimeSpec) Generate(r *rand.Rand) time.Time {
 	d := s.before.Sub(s.after)
-	return s.after.Add(time.Duration(Int(s.r).Max64(int64(d)).Gen64()))
+	return s.after.Add(time.Duration(Int64.Max(int64(d)).Generate(r)))
 }
 
-// GenP returns a time pointer.
-func (s *SomeTime) GenP() *time.Time {
-	t := s.Gen()
-	return &t
+func (s *Some) Time(key string, spec TimeSpec) time.Time {
+	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(time.Time)
 }

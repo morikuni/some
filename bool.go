@@ -5,24 +5,14 @@ import (
 )
 
 // Bool returns a bool generator.
-func Bool(r *rand.Rand) *SomeBool {
-	return &SomeBool{
-		r,
-	}
+var Bool BoolSpec = BoolSpec{}
+
+type BoolSpec struct{}
+
+func (s BoolSpec) Generate(r *rand.Rand) bool {
+	return r.Int()&0x1 == 0
 }
 
-// SomeBool is a bool generator.
-type SomeBool struct {
-	r *rand.Rand
-}
-
-// Gen returns a random bool value.
-func (s *SomeBool) Gen() bool {
-	return s.r.Int()&0x1 == 0
-}
-
-// GenP returns a random bool pointer.
-func (s *SomeBool) GenP() *bool {
-	b := s.Gen()
-	return &b
+func (s *Some) Bool(key string, spec BoolSpec) bool {
+	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(bool)
 }
