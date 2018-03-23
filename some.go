@@ -57,17 +57,18 @@ func (s *Some) hash(key string) int64 {
 }
 
 func (s *Some) Generate(key string, spec interface{}, f func(r *rand.Rand) interface{}) interface{} {
-	r := s.Rand(key)
 	if ck, ok := spec.(CacheKey); ok && key != "" {
 		cache := s.Cache()
 		cacheKey := s.cacheKey(key, ck)
 		if v, ok := cache[cacheKey]; ok {
 			return v
 		}
+		r := s.Rand(key)
 		v := f(r)
 		cache[cacheKey] = v
 		return v
 	} else {
+		r := s.Rand(key)
 		return f(r)
 	}
 }
