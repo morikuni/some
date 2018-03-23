@@ -2,6 +2,7 @@ package example
 
 import (
 	"math/rand"
+	"strconv"
 	"time"
 
 	"github.com/morikuni/some"
@@ -35,6 +36,10 @@ func (s *Some) User(key string, spec UserSpec) *User {
 
 type UserSpec struct {
 	WithID int64
+}
+
+func (s UserSpec) CacheKey() string {
+	return strconv.FormatInt(s.WithID, 10)
 }
 
 // SomeUser user generate a example random use from rand.
