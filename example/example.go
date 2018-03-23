@@ -44,16 +44,18 @@ func (s UserSpec) CacheKey() string {
 
 // SomeUser user generate a example random use from rand.
 func (s UserSpec) Generate(r *rand.Rand) User {
-	t := some.Time.
-		After(time.Date(2017, time.January, 1, 0, 0, 0, 0, time.Local)).
-		Before(time.Date(2017, time.February, 1, 0, 0, 0, 0, time.Local))
-	createdAt := t.Generate(r)
+	ts := some.TimeSpec{
+		After:  time.Date(2017, time.January, 1, 0, 0, 0, 0, time.Local),
+		Before: time.Date(2017, time.February, 1, 0, 0, 0, 0, time.Local),
+	}
+	createdAt := ts.Generate(r)
+	ts.After = createdAt
 	return User{
 		ID:          s.someID(r),
-		Name:        some.String.Len(8).Generate(r),
+		Name:        some.StringSpec{Len: 8}.Generate(r),
 		ContactInfo: someContactInfo(r),
 		CreatedAt:   createdAt,
-		UpdatedAt:   t.After(createdAt).Generate(r),
+		UpdatedAt:   ts.Generate(r),
 	}
 }
 
@@ -61,18 +63,18 @@ func (s UserSpec) someID(r *rand.Rand) int64 {
 	if s.WithID != 0 {
 		return s.WithID
 	}
-	return some.Int64.Generate(r)
+	return some.AnyInt64.Generate(r)
 }
 
 func someContactInfo(r *rand.Rand) ContactInfo {
 	return ContactInfo{
 		Email:         someEmail(r),
-		EmailVerified: some.Bool.Generate(r),
+		EmailVerified: some.AnyBool.Generate(r),
 	}
 }
 
 func someEmail(r *rand.Rand) string {
-	return some.String.Generate(r) + "@" + some.String.Generate(r) + ".com"
+	return some.AnyString.Generate(r) + "@" + some.AnyString.Generate(r) + ".com"
 }
 
 // KVS is a example store for user.

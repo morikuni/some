@@ -4,33 +4,49 @@ import (
 	"math/rand"
 )
 
-var Float FloatSpec = FloatSpec{
-	1,
-	0,
+var (
+	// AnyFloat64 is a default float spec.
+	AnyFloat64 Float64Spec = Float64Spec{
+		1,
+		0,
+	}
+	// AnyFloat32 is a default float spec.
+	AnyFloat32 Float32Spec = Float32Spec{
+		1,
+		0,
+	}
+)
+
+// Float64Spec is a spec of a float64.
+type Float64Spec struct {
+	Max float64
+	Min float64
 }
 
-type FloatSpec struct {
-	max float64
-	min float64
+// Generate generates a random bool from r.
+func (s *Float64Spec) Generate(r *rand.Rand) float64 {
+	diff := s.Max - s.Min
+	return s.Min + diff*r.Float64()
 }
 
-// Max sets the maximum value of a random float value.
-func (s FloatSpec) Max(f float64) FloatSpec {
-	s.max = f
-	return s
-}
-
-// Min sets the minimum value of a random float value.
-func (s FloatSpec) Min(f float64) FloatSpec {
-	s.min = f
-	return s
-}
-
-func (s *FloatSpec) Generate(r *rand.Rand) float64 {
-	diff := s.max - s.min
-	return s.min + diff*r.Float64()
-}
-
-func (s *Some) Float(key string, spec FloatSpec) float64 {
+// Float64 generates a float according to a key and spec.
+func (s *Some) Float64(key string, spec Float64Spec) float64 {
 	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(float64)
+}
+
+// Float32Spec is a spec of a float64.
+type Float32Spec struct {
+	Max float32
+	Min float32
+}
+
+// Generate generates a random bool from r.
+func (s *Float32Spec) Generate(r *rand.Rand) float32 {
+	diff := s.Max - s.Min
+	return s.Min + diff*r.Float32()
+}
+
+// Float32 generates a float according to a key and spec.
+func (s *Some) Float32(key string, spec Float32Spec) float32 {
+	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(float32)
 }

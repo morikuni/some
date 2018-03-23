@@ -5,28 +5,19 @@ import (
 	"math/rand"
 )
 
-var Uint UintSpec = UintSpec{
-	math.MaxUint64,
+// AnyUinwt is a default uint spec.
+var AnyUint UintSpec = UintSpec{
+	math.MaxUint32,
 	0,
 }
 
+// UintSpec is a spec of a uint.
 type UintSpec struct {
-	max uint
-	min uint
+	Max uint
+	Min uint
 }
 
-// Max sets the maximum value of a random uint value with uint64.
-func (s UintSpec) Max(n uint) UintSpec {
-	s.max = n
-	return s
-}
-
-// Min sets the minimum value of a random uint value with uint64.
-func (s UintSpec) Min(n uint) UintSpec {
-	s.min = n
-	return s
-}
-
+// Uint generates a uint according to a key and spec.
 func (s *Some) Uint(key string, spec UintSpec) uint {
 	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(uint)
 }

@@ -5,65 +5,49 @@ import (
 	"math/rand"
 )
 
-var Int IntSpec = IntSpec{
-	Int64Spec{
+var (
+	// AnyInt is a default int spec.
+	AnyInt IntSpec = IntSpec{
 		math.MaxInt32,
 		0,
-	},
-}
+	}
+	// AnyInt64 is a default int64 spec.
+	AnyInt64 Int64Spec = Int64Spec{
+		math.MaxInt64,
+		0,
+	}
+)
 
-// IntSpec is specification of a int value.
+// IntSpec is spec of a int.
 type IntSpec struct {
-	Int64Spec
+	Max int
+	Min int
 }
 
-// Max sets the maximum value of a random int value.
-func (s IntSpec) Max(n int) IntSpec {
-	return IntSpec{s.Int64Spec.Max(int64(n))}
-}
-
-// Min sets the minimum value of a random int value.
-func (s IntSpec) Min(n int) IntSpec {
-	return IntSpec{s.Int64Spec.Min(int64(n))}
-}
-
+// Generate generates a random int from r.
 func (s IntSpec) Generate(r *rand.Rand) int {
-	i := s.Int64Spec.Generate(r)
-	return int(i)
+	diff := s.Max - s.Min
+	return s.Min + r.Intn(diff)
 }
 
+// Int generates a int according to a key and spec.
 func (s *Some) Int(key string, spec IntSpec) int {
 	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(int)
 }
 
-var Int64 Int64Spec = Int64Spec{
-	math.MaxInt64,
-	0,
-}
-
-// IntSpec is specification of a int value.
+// Int64Spec is spec of a int64.
 type Int64Spec struct {
-	max int64
-	min int64
+	Max int64
+	Min int64
 }
 
-// Max sets the maximum value of a random int value.
-func (s Int64Spec) Max(n int64) Int64Spec {
-	s.max = n
-	return s
-}
-
-// Min sets the minimum value of a random int value.
-func (s Int64Spec) Min(n int64) Int64Spec {
-	s.min = n
-	return s
-}
-
+// Generate generates a random int64 from r.
 func (s Int64Spec) Generate(r *rand.Rand) int64 {
-	diff := s.max - s.min
-	return s.min + r.Int63n(diff)
+	diff := s.Max - s.Min
+	return s.Min + r.Int63n(diff)
 }
 
+// Int64 generates a int64 according to a key and spec.
 func (s *Some) Int64(key string, spec Int64Spec) int64 {
 	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(int64)
 }

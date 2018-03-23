@@ -14,10 +14,10 @@ func TestTime(t *testing.T) {
 	n := 100
 	for i := 0; i < n; i++ {
 		key := strconv.Itoa(i)
-		assert.Equal(t, s.Time(key, Time), s.Time(key, Time))
+		assert.Equal(t, s.Time(key, AnyTime), s.Time(key, AnyTime))
 
 		now := time.Now()
-		v := s.Time(key, Time.After(now.Add(-time.Hour*24*10)).Before(now))
+		v := s.Time(key, TimeSpec{After: now.Add(-time.Hour * 24 * 10), Before: now})
 		if v.Before(now.Add(-time.Hour * 24 * 10)) {
 			assert.Fail(t, "", "before 10 days: %v", v)
 		}

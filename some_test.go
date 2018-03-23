@@ -17,7 +17,7 @@ func (s testSpec) CacheKey() string {
 	return "test"
 }
 
-func TestGen(t *testing.T) {
+func TestSome(t *testing.T) {
 	s := Some{}
 
 	assert.Equal(t, GlobalRand, s.Rand(""))
@@ -46,6 +46,4 @@ func TestGen(t *testing.T) {
 	s.Generate("a", spec, f)
 	s.Generate("a", spec, f)
 	assert.Equal(t, 4, count)
-
-	t.Log(s.Cache())
 }

@@ -4,30 +4,27 @@ import (
 	"math/rand"
 )
 
-var String StringSpec = StringSpec{
+// AnyString is a default string spec.
+var AnyString StringSpec = StringSpec{
 	10,
 }
 
-// StringSpec is a specification of a string value.
+// BoolSpec is a spec of a string.
 type StringSpec struct {
-	len int
+	Len int
 }
 
-// Len sets the length of a random string value.
-func (s StringSpec) Len(n int) StringSpec {
-	s.len = n
-	return s
-}
-
+// Generate generates a random string from r.
 func (s StringSpec) Generate(r *rand.Rand) string {
 	const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	result := make([]byte, s.len)
+	result := make([]byte, s.Len)
 	for i := range result {
-		result[i] = chars[Int.Max(len(chars)).Generate(r)]
+		result[i] = chars[IntSpec{Max: len(chars)}.Generate(r)]
 	}
 	return string(result)
 }
 
+// String generates a string according to a key and spec.
 func (s *Some) String(key string, spec StringSpec) string {
 	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(string)
 }

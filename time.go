@@ -5,33 +5,25 @@ import (
 	"time"
 )
 
-var Time TimeSpec = TimeSpec{
+// AnyBool is a default time.Time spec.
+var AnyTime TimeSpec = TimeSpec{
 	time.Unix(0, 0),
 	time.Date(3000, time.January, 1, 0, 0, 0, 0, time.UTC),
 }
 
+// TimeSpec is a spec of a time.Time.
 type TimeSpec struct {
-	after  time.Time
-	before time.Time
+	After  time.Time
+	Before time.Time
 }
 
-// After sets the minimum time of a random time.
-func (s TimeSpec) After(t time.Time) TimeSpec {
-	s.after = t
-	return s
-}
-
-// Before sets the maximux time of a random time.
-func (s TimeSpec) Before(t time.Time) TimeSpec {
-	s.before = t
-	return s
-}
-
+// Generate generates a random time.Time from r.
 func (s TimeSpec) Generate(r *rand.Rand) time.Time {
-	d := s.before.Sub(s.after)
-	return s.after.Add(time.Duration(Int64.Max(int64(d)).Generate(r)))
+	d := s.Before.Sub(s.After)
+	return s.After.Add(time.Duration(Int64Spec{Max: int64(d)}.Generate(r)))
 }
 
+// Time generates a time.Time according to a key and spec.
 func (s *Some) Time(key string, spec TimeSpec) time.Time {
 	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(time.Time)
 }
