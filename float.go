@@ -30,8 +30,8 @@ func (s *Float64Spec) Generate(r *rand.Rand) float64 {
 }
 
 // Float64 generates a float according to a key and spec.
-func (s *Some) Float64(key string, spec Float64Spec) float64 {
-	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(float64)
+func (g *Generator) Float64(key string, spec Float64Spec) float64 {
+	return g.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(float64)
 }
 
 // Float32Spec is a spec of a float64.
@@ -47,6 +47,6 @@ func (s *Float32Spec) Generate(r *rand.Rand) float32 {
 }
 
 // Float32 generates a float according to a key and spec.
-func (s *Some) Float32(key string, spec Float32Spec) float32 {
-	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(float32)
+func (g *Generator) Float32(key string, spec Float32Spec) float32 {
+	return g.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(float32)
 }

@@ -23,9 +23,9 @@ type ContactInfo struct {
 	EmailVerified bool
 }
 
-// Some is a generator for example.
+// Generator is a generator for example.
 type Some struct {
-	some.Some
+	some.Generator
 }
 
 // User generate example random user from a key.

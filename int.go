@@ -31,8 +31,8 @@ func (s IntSpec) Generate(r *rand.Rand) int {
 }
 
 // Int generates a int according to a key and spec.
-func (s *Some) Int(key string, spec IntSpec) int {
-	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(int)
+func (g *Generator) Int(key string, spec IntSpec) int {
+	return g.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(int)
 }
 
 // Int64Spec is spec of a int64.
@@ -48,6 +48,6 @@ func (s Int64Spec) Generate(r *rand.Rand) int64 {
 }
 
 // Int64 generates a int64 according to a key and spec.
-func (s *Some) Int64(key string, spec Int64Spec) int64 {
-	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(int64)
+func (g *Generator) Int64(key string, spec Int64Spec) int64 {
+	return g.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(int64)
 }

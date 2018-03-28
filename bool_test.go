@@ -8,7 +8,7 @@ import (
 )
 
 func TestBool(t *testing.T) {
-	s := Some{}
+	s := Generator{}
 
 	n := 1000
 	trueCount := 0.0

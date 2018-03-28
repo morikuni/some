@@ -18,7 +18,7 @@ func (s testSpec) CacheKey() string {
 }
 
 func TestSome(t *testing.T) {
-	s := Some{}
+	s := Generator{}
 
 	assert.Equal(t, GlobalRand, s.Rand(""))
 	assert.Equal(t, GlobalCache, s.Cache())

@@ -25,6 +25,6 @@ func (s StringSpec) Generate(r *rand.Rand) string {
 }
 
 // String generates a string according to a key and spec.
-func (s *Some) String(key string, spec StringSpec) string {
-	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(string)
+func (g *Generator) String(key string, spec StringSpec) string {
+	return g.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(string)
 }

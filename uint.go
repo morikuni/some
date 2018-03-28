@@ -18,6 +18,6 @@ type UintSpec struct {
 }
 
 // Uint generates a uint according to a key and spec.
-func (s *Some) Uint(key string, spec UintSpec) uint {
-	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(uint)
+func (g *Generator) Uint(key string, spec UintSpec) uint {
+	return g.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(uint)
 }

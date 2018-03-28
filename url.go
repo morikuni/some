@@ -26,6 +26,6 @@ func (s URLSpec) Generate(r *rand.Rand) url.URL {
 }
 
 // URL generates a url.URL according to a key and spec.
-func (s *Some) URL(key string, spec URLSpec) url.URL {
-	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(url.URL)
+func (g *Generator) URL(key string, spec URLSpec) url.URL {
+	return g.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(url.URL)
 }

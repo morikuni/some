@@ -16,8 +16,8 @@ var (
 	GlobalCache map[string]interface{} = make(map[string]interface{})
 )
 
-// Some generates and caches a dummy data.
-type Some struct {
+// Generator generates and caches a dummy data.
+type Generator struct {
 	// LocalRand is a instance specific random number generator.
 	LocalRand *rand.Rand
 	// LocalCache is a instance specific cache store.
@@ -26,49 +26,49 @@ type Some struct {
 
 // Rand returns a random number generator for the specific key.
 // GlobalRand or LocalCache are returned for the empty key.
-func (s *Some) Rand(key string) *rand.Rand {
+func (g *Generator) Rand(key string) *rand.Rand {
 	if key != "" {
-		hash := s.hash(key)
+		hash := g.hash(key)
 		return rand.New(rand.NewSource(hash))
 	}
-	if s.LocalRand != nil {
-		return s.LocalRand
+	if g.LocalRand != nil {
+		return g.LocalRand
 	}
 	return GlobalRand
 }
 
 // Cache returns a cache store.
 // GlobalRand or LocalCache are returned.
-func (s *Some) Cache() map[string]interface{} {
-	if s.LocalCache != nil {
-		return s.LocalCache
+func (g *Generator) Cache() map[string]interface{} {
+	if g.LocalCache != nil {
+		return g.LocalCache
 	}
 	return GlobalCache
 }
 
-func (s *Some) cacheKey(key string, cacheKey CacheKey) string {
+func (g *Generator) cacheKey(key string, cacheKey CacheKey) string {
 	return reflect.TypeOf(cacheKey).String() + "@" + key + "@" + cacheKey.CacheKey()
 }
 
-func (s *Some) hash(key string) int64 {
+func (g *Generator) hash(key string) int64 {
 	hash := fnv.New64()
 	hash.Write([]byte(key))
 	return int64(hash.Sum64())
 }
 
-func (s *Some) Generate(key string, spec interface{}, f func(r *rand.Rand) interface{}) interface{} {
+func (g *Generator) Generate(key string, spec interface{}, f func(r *rand.Rand) interface{}) interface{} {
 	if ck, ok := spec.(CacheKey); ok && key != "" {
-		cache := s.Cache()
-		cacheKey := s.cacheKey(key, ck)
+		cache := g.Cache()
+		cacheKey := g.cacheKey(key, ck)
 		if v, ok := cache[cacheKey]; ok {
 			return v
 		}
-		r := s.Rand(key)
+		r := g.Rand(key)
 		v := f(r)
 		cache[cacheKey] = v
 		return v
 	} else {
-		r := s.Rand(key)
+		r := g.Rand(key)
 		return f(r)
 	}
 }

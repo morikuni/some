@@ -16,6 +16,6 @@ func (s BoolSpec) Generate(r *rand.Rand) bool {
 }
 
 // Bool generates a bool according to a key and spec.
-func (s *Some) Bool(key string, spec BoolSpec) bool {
-	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(bool)
+func (g *Generator) Bool(key string, spec BoolSpec) bool {
+	return g.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(bool)
 }

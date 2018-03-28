@@ -24,6 +24,6 @@ func (s TimeSpec) Generate(r *rand.Rand) time.Time {
 }
 
 // Time generates a time.Time according to a key and spec.
-func (s *Some) Time(key string, spec TimeSpec) time.Time {
-	return s.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(time.Time)
+func (g *Generator) Time(key string, spec TimeSpec) time.Time {
+	return g.Generate(key, spec, func(r *rand.Rand) interface{} { return spec.Generate(r) }).(time.Time)
 }

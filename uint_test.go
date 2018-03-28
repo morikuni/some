@@ -8,7 +8,7 @@ import (
 )
 
 func TestUint(t *testing.T) {
-	s := Some{}
+	s := Generator{}
 
 	n := 100
 	for i := 0; i < n; i++ {
