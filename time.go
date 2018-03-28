@@ -17,6 +17,18 @@ type TimeSpec struct {
 	Before time.Time
 }
 
+// WithAfter returns new spec with given after.
+func (s TimeSpec) WithAfter(after time.Time) TimeSpec {
+	s.After = after
+	return s
+}
+
+// WithBefore returns new spec with given before.
+func (s TimeSpec) WithBefore(before time.Time) TimeSpec {
+	s.Before = before
+	return s
+}
+
 // Generate generates a random time.Time from r.
 func (s TimeSpec) Generate(r *rand.Rand) time.Time {
 	d := s.Before.Sub(s.After)

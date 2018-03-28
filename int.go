@@ -24,6 +24,18 @@ type IntSpec struct {
 	Min int
 }
 
+// WithMax returns new spec with given max.
+func (s IntSpec) WithMax(max int) IntSpec {
+	s.Max = max
+	return s
+}
+
+// WithMin returns new spec with given min.
+func (s IntSpec) WithMin(min int) IntSpec {
+	s.Min = min
+	return s
+}
+
 // Generate generates a random int from r.
 func (s IntSpec) Generate(r *rand.Rand) int {
 	diff := s.Max - s.Min
@@ -39,6 +51,18 @@ func (g *Generator) Int(key string, spec IntSpec) int {
 type Int64Spec struct {
 	Max int64
 	Min int64
+}
+
+// WithMax returns new spec with given max.
+func (s Int64Spec) WithMax(max int64) Int64Spec {
+	s.Max = max
+	return s
+}
+
+// WithMin returns new spec with given min.
+func (s Int64Spec) WithMin(min int64) Int64Spec {
+	s.Min = min
+	return s
 }
 
 // Generate generates a random int64 from r.

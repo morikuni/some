@@ -23,8 +23,20 @@ type Float64Spec struct {
 	Min float64
 }
 
+// WithMax returns new spec with given max.
+func (s Float64Spec) WithMax(max float64) Float64Spec {
+	s.Max = max
+	return s
+}
+
+// WithMin returns new spec with given min.
+func (s Float64Spec) WithMin(min float64) Float64Spec {
+	s.Min = min
+	return s
+}
+
 // Generate generates a random bool from r.
-func (s *Float64Spec) Generate(r *rand.Rand) float64 {
+func (s Float64Spec) Generate(r *rand.Rand) float64 {
 	diff := s.Max - s.Min
 	return s.Min + diff*r.Float64()
 }
@@ -38,6 +50,18 @@ func (g *Generator) Float64(key string, spec Float64Spec) float64 {
 type Float32Spec struct {
 	Max float32
 	Min float32
+}
+
+// WithMax returns new spec with given max.
+func (s Float32Spec) WithMax(max float32) Float32Spec {
+	s.Max = max
+	return s
+}
+
+// WithMin returns new spec with given min.
+func (s Float32Spec) WithMin(min float32) Float32Spec {
+	s.Min = min
+	return s
 }
 
 // Generate generates a random bool from r.

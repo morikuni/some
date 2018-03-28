@@ -15,6 +15,12 @@ type URLSpec struct {
 	Schemes []string
 }
 
+// WithSchemes returns new spec with given schemes.
+func (s URLSpec) WithSchemes(schemes []string) URLSpec {
+	s.Schemes = schemes
+	return s
+}
+
 // Generate generates a random url.URL from r.
 func (s URLSpec) Generate(r *rand.Rand) url.URL {
 	scheme := s.Schemes[IntSpec{Max: len(s.Schemes)}.Generate(r)]

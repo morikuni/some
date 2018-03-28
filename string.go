@@ -14,6 +14,12 @@ type StringSpec struct {
 	Len int
 }
 
+// WithLen returns new spec with given len.
+func (s StringSpec) WithLen(len int) StringSpec {
+	s.Len = len
+	return s
+}
+
 // Generate generates a random string from r.
 func (s StringSpec) Generate(r *rand.Rand) string {
 	const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
