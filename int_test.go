@@ -13,8 +13,8 @@ func TestInt(t *testing.T) {
 	n := 100
 	for i := 0; i < n; i++ {
 		key := strconv.Itoa(i)
-		assert.Equal(t, s.Int(key, AnyInt), s.Int(key, AnyInt))
-		assert.Equal(t, s.Int64(key, AnyInt64), s.Int64(key, AnyInt64))
+		assert.Equal(t, s.Int(key, Int), s.Int(key, Int))
+		assert.Equal(t, s.Int64(key, Int64), s.Int64(key, Int64))
 
 		v := s.Int(key, IntSpec{Min: -100, Max: 50})
 		if v < -100 {

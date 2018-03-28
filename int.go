@@ -6,13 +6,13 @@ import (
 )
 
 var (
-	// AnyInt is a default int spec.
-	AnyInt IntSpec = IntSpec{
+	// Int is a default int spec.
+	Int IntSpec = IntSpec{
 		math.MaxInt32,
 		0,
 	}
-	// AnyInt64 is a default int64 spec.
-	AnyInt64 Int64Spec = Int64Spec{
+	// Int64 is a default int64 spec.
+	Int64 Int64Spec = Int64Spec{
 		math.MaxInt64,
 		0,
 	}

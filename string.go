@@ -4,8 +4,8 @@ import (
 	"math/rand"
 )
 
-// AnyString is a default string spec.
-var AnyString StringSpec = StringSpec{
+// String is a default string spec.
+var String StringSpec = StringSpec{
 	10,
 }
 

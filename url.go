@@ -5,8 +5,8 @@ import (
 	"net/url"
 )
 
-// AnyURL is a default url.URL spec.
-var AnyURL URLSpec = URLSpec{
+// URL is a default url.URL spec.
+var URL URLSpec = URLSpec{
 	[]string{"http", "https"},
 }
 

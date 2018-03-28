@@ -5,8 +5,8 @@ import (
 	"math/rand"
 )
 
-// AnyUinwt is a default uint spec.
-var AnyUint UintSpec = UintSpec{
+// Uint is a default uint spec.
+var Uint UintSpec = UintSpec{
 	math.MaxUint32,
 	0,
 }

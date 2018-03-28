@@ -14,9 +14,9 @@ func TestBool(t *testing.T) {
 	trueCount := 0.0
 	for i := 0; i < n; i++ {
 		key := strconv.Itoa(i)
-		assert.Equal(t, s.Bool(key, AnyBool), s.Bool(key, AnyBool))
+		assert.Equal(t, s.Bool(key, Bool), s.Bool(key, Bool))
 
-		if s.Bool(key, AnyBool) {
+		if s.Bool(key, Bool) {
 			trueCount += 1
 		}
 	}

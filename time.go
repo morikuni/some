@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-// AnyBool is a default time.Time spec.
-var AnyTime TimeSpec = TimeSpec{
+// Bool is a default time.Time spec.
+var Time TimeSpec = TimeSpec{
 	time.Unix(0, 0),
 	time.Date(3000, time.January, 1, 0, 0, 0, 0, time.UTC),
 }

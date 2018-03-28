@@ -4,8 +4,8 @@ import (
 	"math/rand"
 )
 
-// AnyBool is a default bool spec.
-var AnyBool BoolSpec = BoolSpec{}
+// Bool is a default bool spec.
+var Bool BoolSpec = BoolSpec{}
 
 // BoolSpec is a spec of a bool.
 type BoolSpec struct{}

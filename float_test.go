@@ -13,8 +13,8 @@ func TestFloat(t *testing.T) {
 	n := 100
 	for i := 0; i < n; i++ {
 		key := strconv.Itoa(i)
-		assert.Equal(t, s.Float64(key, AnyFloat64), s.Float64(key, AnyFloat64))
-		assert.Equal(t, s.Float32(key, AnyFloat32), s.Float32(key, AnyFloat32))
+		assert.Equal(t, s.Float64(key, Float64), s.Float64(key, Float64))
+		assert.Equal(t, s.Float32(key, Float32), s.Float32(key, Float32))
 
 		v := s.Float64(key, Float64Spec{Min: -100, Max: 50})
 		if v < -100 {

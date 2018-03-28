@@ -5,13 +5,13 @@ import (
 )
 
 var (
-	// AnyFloat64 is a default float spec.
-	AnyFloat64 Float64Spec = Float64Spec{
+	// Float64 is a default float spec.
+	Float64 Float64Spec = Float64Spec{
 		1,
 		0,
 	}
-	// AnyFloat32 is a default float spec.
-	AnyFloat32 Float32Spec = Float32Spec{
+	// Float32 is a default float spec.
+	Float32 Float32Spec = Float32Spec{
 		1,
 		0,
 	}

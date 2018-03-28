@@ -13,7 +13,7 @@ func TestString(t *testing.T) {
 	n := 100
 	for i := 0; i < n; i++ {
 		key := strconv.Itoa(i)
-		assert.Equal(t, g.String(key, AnyString), g.String(key, AnyString))
+		assert.Equal(t, g.String(key, String), g.String(key, String))
 
 		v := g.String(key, StringSpec{Len: 7})
 		assert.Len(t, v, 7)

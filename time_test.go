@@ -14,7 +14,7 @@ func TestTime(t *testing.T) {
 	n := 100
 	for i := 0; i < n; i++ {
 		key := strconv.Itoa(i)
-		assert.Equal(t, s.Time(key, AnyTime), s.Time(key, AnyTime))
+		assert.Equal(t, s.Time(key, Time), s.Time(key, Time))
 
 		now := time.Now()
 		v := s.Time(key, TimeSpec{After: now.Add(-time.Hour * 24 * 10), Before: now})
